@@ -1,0 +1,84 @@
+@model PaniniDapperApp.Models.ReportStats
+@{
+    ViewData["Title"] = "Dashboard";
+    var topCollectors = ViewBag.TopCollectors as IEnumerable<PaniniDapperApp.Models.TopCollector>;
+    var topStickers = ViewBag.TopStickers as IEnumerable<PaniniDapperApp.Models.MostTradedSticker>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="bi bi-grid-1x2 text-primary"></i> Dashboard</h2>
+    <span class="text-muted">Welcome back, @Context.Session.GetString("ActiveCollectorName")</span>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="glass-card p-4 text-center">
+            <h5 class="text-muted">Total Collectors</h5>
+            <h1 class="display-4 text-primary fw-bold">@Model.TotalCollectors</h1>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-card p-4 text-center">
+            <h5 class="text-muted">Stickers in Circulation</h5>
+            <h1 class="display-4 text-success fw-bold">@Model.TotalStickersInCirculation</h1>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-card p-4 text-center">
+            <h5 class="text-muted">Completed Trades</h5>
+            <h1 class="display-4 text-info fw-bold">@Model.CompletedTrades</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Reports Row -->
+<div class="row g-4">
+    <!-- Top Collectors -->
+    <div class="col-md-6">
+        <div class="glass-card h-100">
+            <div class="glass-header text-primary">
+                <i class="bi bi-trophy"></i> Top 5 Collectors
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush bg-transparent">
+                    @if (topCollectors != null)
+                    {
+                        foreach (var collector in topCollectors)
+                        {
+                            <li class="list-group-item bg-transparent text-light d-flex justify-content-between align-items-center border-secondary">
+                                <span><i class="bi bi-person-fill text-muted me-2"></i> @collector.Username</span>
+                                <span class="badge bg-primary rounded-pill">@collector.UniqueStickersCount Stickers</span>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Most Traded Stickers -->
+    <div class="col-md-6">
+        <div class="glass-card h-100">
+            <div class="glass-header text-success">
+                <i class="bi bi-fire"></i> Most Traded Stickers
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush bg-transparent">
+                    @if (topStickers != null)
+                    {
+                        foreach (var sticker in topStickers)
+                        {
+                            <li class="list-group-item bg-transparent text-light d-flex justify-content-between align-items-center border-secondary">
+                                <span>
+                                    <strong>@sticker.PlayerName</strong> <small class="text-muted">(@sticker.CountryName)</small>
+                                </span>
+                                <span class="badge bg-success rounded-pill">@sticker.TradeCount Trades</span>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

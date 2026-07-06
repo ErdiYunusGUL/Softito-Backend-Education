@@ -1,0 +1,84 @@
+@model IEnumerable<AdvancedGameStore.Models.Product>
+@{
+    ViewData["Title"] = "Vitrin";
+}
+
+<div class="text-center mb-16 mt-8">
+    <div class="inline-block px-4 py-1 rounded-full bg-gamer-primary/20 border border-gamer-primary/50 text-gamer-primary font-bold mb-4 text-sm tracking-widest uppercase">
+        En Yeni Ürünler
+    </div>
+    <h1 class="text-5xl md:text-6xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gamer-primary via-white to-gamer-accent pb-2">
+        Efsanevi Fırsatları Yakala
+    </h1>
+    <p class="text-slate-400 text-xl max-w-2xl mx-auto">En popüler oyunlar, dijital bakiyeler ve seçkin üyelikler inanılmaz fiyatlarla seni bekliyor.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    @foreach (var item in Model)
+    {
+        <div class="bg-gamer-panel rounded-2xl overflow-hidden border border-slate-700 hover:border-gamer-accent transition-all duration-300 group hover:-translate-y-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(16,185,129,0.2)] flex flex-col">
+            <div class="relative h-52 overflow-hidden bg-slate-800 flex items-center justify-center">
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="@item.ImageUrl" alt="@item.Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" />
+                }
+                <div class="absolute inset-0 bg-gradient-to-t from-gamer-panel via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                
+                <div class="absolute top-4 left-4 bg-black/60 px-3 py-1.5 rounded-lg text-xs font-bold text-white border border-slate-600 backdrop-blur-md flex items-center gap-2">
+                    <i class="@item.IconClass text-gamer-accent"></i> @item.Category.Name
+                </div>
+                
+                <!-- Overlay Buy Icon -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div class="bg-gamer-accent/90 text-slate-900 rounded-full w-16 h-16 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.8)] scale-50 group-hover:scale-100 transition-transform duration-300">
+                        <i class="fa-solid fa-cart-arrow-down text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-6 flex flex-col flex-grow relative">
+                <div class="absolute -top-6 right-6 bg-gamer-panel border-4 border-gamer-dark w-12 h-12 rounded-xl flex items-center justify-center text-xl text-slate-400 group-hover:text-gamer-primary group-hover:border-gamer-primary/30 transition-all rotate-3 group-hover:-rotate-3 shadow-lg">
+                    <i class="@item.IconClass"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold mb-3 text-white line-clamp-1 mt-2 group-hover:text-gamer-accent transition-colors">@item.Name</h3>
+                <p class="text-slate-400 text-sm mb-6 flex-grow line-clamp-2 leading-relaxed">@item.Description</p>
+                
+                <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700/50">
+                    <div class="text-3xl font-black text-white glow-text">@item.Price.ToString("C2")</div>
+                    <button class="bg-gamer-accent hover:bg-emerald-400 text-slate-900 px-5 py-2.5 rounded-xl font-black transition-all glow-button flex items-center gap-2">
+                        Al
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Hero Promo Section -->
+<div class="mt-24 rounded-3xl bg-gradient-to-br from-violet-900/80 via-slate-800 to-emerald-900/80 border border-gamer-primary/40 p-8 lg:p-14 flex flex-col lg:flex-row items-center justify-between overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] group">
+    <div class="absolute -right-10 -top-10 text-[15rem] text-white/5 group-hover:text-white/10 transition-colors duration-700 rotate-12 group-hover:rotate-0">
+        <i class="fa-brands fa-playstation"></i>
+    </div>
+    <div class="absolute -left-20 -bottom-20 text-[15rem] text-gamer-accent/5 group-hover:text-gamer-accent/10 transition-colors duration-700 -rotate-12 group-hover:rotate-0">
+        <i class="fa-brands fa-steam"></i>
+    </div>
+    
+    <div class="z-10 max-w-2xl relative">
+        <div class="inline-block px-3 py-1 bg-red-500/20 border border-red-500/50 text-red-400 font-bold rounded-lg mb-4 animate-pulse">
+            <i class="fa-solid fa-fire mr-1"></i> HAFTANIN FIRSATI
+        </div>
+        <h2 class="text-5xl font-black mb-5 text-white">PlayStation Plus <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-gamer-accent to-emerald-300">İndirimleri Başladı</span></h2>
+        <p class="text-slate-300 text-xl mb-8 leading-relaxed">Yıllık aboneliklerde %40'a varan indirimleri kaçırma. Hemen üye ol, yüzlerce oyuna anında erişim sağla ve online rekabete katıl.</p>
+        <button class="bg-white text-violet-900 px-8 py-4 rounded-xl font-black text-lg hover:bg-gamer-accent hover:text-slate-900 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transform hover:-translate-y-1">
+            Fırsatları Gör <i class="fa-solid fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+    <div class="z-10 mt-12 lg:mt-0 relative">
+        <div class="w-56 h-56 bg-gradient-to-tr from-gamer-primary to-gamer-accent rounded-full flex items-center justify-center animate-[spin_10s_linear_infinite] shadow-[0_0_80px_rgba(139,92,246,0.6)]">
+            <div class="w-48 h-48 bg-slate-900 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-bolt text-7xl text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400"></i>
+            </div>
+        </div>
+    </div>
+</div>

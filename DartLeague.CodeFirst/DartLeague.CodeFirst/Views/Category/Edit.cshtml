@@ -1,0 +1,18 @@
+@model DartLeague.CodeFirst.Models.Category
+@{ ViewData["Title"] = "Edit Category"; }
+
+<div class="glass-card w-50 mx-auto mt-4">
+    <h3 class="text-warning mb-3">Edit Category</h3>
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group mb-4">
+            <label asp-for="Name" class="control-label">Category Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-warning">Update Category</button>
+            <a asp-action="Index" class="btn btn-outline-light ms-2">Cancel</a>
+        </div>
+    </form>
+</div>

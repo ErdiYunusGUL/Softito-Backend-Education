@@ -1,0 +1,83 @@
+@model IEnumerable<AdvancedGameStore.Models.Product>
+@{
+    ViewData["Title"] = "Ürün Yönetimi";
+}
+
+<div class="flex justify-between items-center mb-8">
+    <div>
+        <h2 class="text-2xl font-bold text-white mb-2">Ürün Yönetimi</h2>
+        <p class="text-slate-400">Mağazadaki tüm oyunları ve E-Pinleri buradan yönetebilirsiniz.</p>
+    </div>
+    <button class="bg-corporate-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2 transform hover:-translate-y-0.5">
+        <i class="fa-solid fa-plus"></i> Yeni Ürün Ekle
+    </button>
+</div>
+
+<div class="bg-corporate-surface border border-corporate-border rounded-xl shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-corporate-border flex justify-between items-center bg-slate-900/30">
+        <div class="flex items-center bg-slate-900 rounded-lg px-3 py-2 border border-corporate-border w-72 focus-within:border-corporate-primary transition-colors">
+            <i class="fa-solid fa-search text-slate-500 mr-2 text-sm"></i>
+            <input type="text" placeholder="Ürün ara..." class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-slate-500" />
+        </div>
+        <div class="flex gap-2">
+            <button class="px-3 py-1.5 border border-corporate-border rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors text-sm flex items-center gap-1"><i class="fa-solid fa-filter"></i> Filtrele</button>
+        </div>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-400">
+            <thead class="text-xs uppercase bg-slate-900/80 text-slate-300">
+                <tr>
+                    <th scope="col" class="px-6 py-4 font-medium">Ürün Adı</th>
+                    <th scope="col" class="px-6 py-4 font-medium">Kategori</th>
+                    <th scope="col" class="px-6 py-4 font-medium">Fiyat</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-right">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-corporate-border">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded bg-slate-800 flex items-center justify-center mr-3 border border-slate-700 text-slate-400 shadow-inner">
+                                    <i class="@item.IconClass"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-white">@item.Name</div>
+                                    <div class="text-xs text-slate-500 truncate w-48 mt-0.5">@item.Description</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2.5 py-1.5 rounded-md text-xs font-medium bg-slate-700/50 border border-slate-600 text-slate-300">
+                                @item.Category.Name
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 font-bold text-emerald-400">
+                            @item.Price.ToString("C2")
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="px-3 py-1.5 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded border border-blue-500/20 transition-colors text-xs font-medium flex items-center gap-1">
+                                    <i class="fa-solid fa-pen"></i> Düzenle
+                                </button>
+                                <button class="px-3 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded border border-red-500/20 transition-colors text-xs font-medium flex items-center gap-1">
+                                    <i class="fa-solid fa-trash"></i> Sil
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="p-4 border-t border-corporate-border flex justify-between items-center text-sm text-slate-400 bg-slate-900/30">
+        <div>Toplam @Model.Count() ürün gösteriliyor</div>
+        <div class="flex gap-1">
+            <button class="px-3 py-1.5 border border-corporate-border rounded hover:bg-slate-700 disabled:opacity-50 transition-colors" disabled>Önceki</button>
+            <button class="px-3 py-1.5 border border-corporate-primary bg-corporate-primary text-white rounded font-medium">1</button>
+            <button class="px-3 py-1.5 border border-corporate-border rounded hover:bg-slate-700 transition-colors">2</button>
+            <button class="px-3 py-1.5 border border-corporate-border rounded hover:bg-slate-700 transition-colors">Sonraki</button>
+        </div>
+    </div>
+</div>

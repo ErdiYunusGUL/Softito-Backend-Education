@@ -1,0 +1,91 @@
+@model IEnumerable<PaniniDapperApp.Models.TradeListing>
+@{
+    ViewData["Title"] = "My Listings & Offers";
+    var incomingOffers = ViewBag.IncomingOffers as IEnumerable<PaniniDapperApp.Models.TradeOffer>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="bi bi-tags text-primary"></i> My Market Listings</h2>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to Market</a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success glass-card border-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger glass-card border-danger">@TempData["Error"]</div>
+}
+
+<div class="row g-4">
+    <!-- Active Listings -->
+    <div class="col-md-5">
+        <h5 class="text-muted mb-3">My Active Listings</h5>
+        <div class="d-flex flex-column gap-3">
+            @foreach (var listing in Model.Where(l => l.Status == "Open"))
+            {
+                <div class="glass-card p-3 border-primary border-start border-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1 text-white">@listing.Sticker?.PlayerName</h5>
+                            <small class="text-muted">#@listing.Sticker?.Number (@listing.Sticker?.Team?.CountryName)</small>
+                        </div>
+                        <form asp-action="RemoveListing" method="post">
+                            <input type="hidden" name="listingId" value="@listing.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove Listing"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+            }
+            @if (!Model.Any(l => l.Status == "Open"))
+            {
+                <div class="text-muted fst-italic">You have no active listings. Go to My Album to list a duplicate sticker.</div>
+            }
+        </div>
+    </div>
+
+    <!-- Incoming Offers -->
+    <div class="col-md-7">
+        <h5 class="text-muted mb-3">Incoming Offers</h5>
+        <div class="d-flex flex-column gap-3">
+            @if (incomingOffers != null && incomingOffers.Any())
+            {
+                foreach (var offer in incomingOffers)
+                {
+                    <div class="glass-card p-3 border-success border-start border-4">
+                        <div class="row align-items-center text-center">
+                            <div class="col-4">
+                                <small class="text-muted d-block">They want</small>
+                                <strong class="text-white">@offer.Listing?.Sticker?.PlayerName</strong>
+                            </div>
+                            <div class="col-1 text-primary fs-4"><i class="bi bi-arrow-left-right"></i></div>
+                            <div class="col-4">
+                                <small class="text-muted d-block">They offer</small>
+                                <strong class="text-success">@offer.OfferedSticker?.PlayerName</strong>
+                                <small class="d-block text-muted">@offer.OfferedSticker?.Team?.CountryName</small>
+                            </div>
+                            <div class="col-3">
+                                <form asp-action="AcceptOffer" method="post" class="d-inline">
+                                    <input type="hidden" name="offerId" value="@offer.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success w-100 mb-1">Accept</button>
+                                </form>
+                                <form asp-action="RejectOffer" method="post" class="d-inline">
+                                    <input type="hidden" name="offerId" value="@offer.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">Reject</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-end">
+                            <small class="text-muted">Offer from <strong>@offer.OfferedBy?.Username</strong></small>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-muted fst-italic">No incoming offers yet.</div>
+            }
+        </div>
+    </div>
+</div>

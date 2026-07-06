@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Ana Sayfa - Gösterge Paneli";
+}
+
+<div class="text-center mb-5 mt-4">
+    <h1 class="display-4 fw-bold text-primary"><i class="fa-solid fa-book-open-reader me-3"></i>Kütüphane Sistemine Hoş Geldiniz</h1>
+    <p class="lead text-muted mt-3">Sistemdeki tüm kayıtların özetini aşağıdan görebilirsiniz.</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Kitaplar -->
+    <div class="col-md-4">
+        <div class="card shadow-custom border-0 rounded-4 bg-primary text-white h-100">
+            <div class="card-body p-4 text-center">
+                <i class="fa-solid fa-book fa-3x mb-3"></i>
+                <h3 class="card-title fw-bold">@ViewBag.TotalBooks</h3>
+                <p class="card-text fs-5">Toplam Kitap</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3">
+                <a asp-controller="Books" asp-action="Index" class="btn btn-light btn-sm fw-bold px-4 rounded-pill">Listeye Git <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Yazarlar -->
+    <div class="col-md-4">
+        <div class="card shadow-custom border-0 rounded-4 bg-success text-white h-100">
+            <div class="card-body p-4 text-center">
+                <i class="fa-solid fa-pen-nib fa-3x mb-3"></i>
+                <h3 class="card-title fw-bold">@ViewBag.TotalAuthors</h3>
+                <p class="card-text fs-5">Kayıtlı Yazar</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3">
+                <a asp-controller="Authors" asp-action="Index" class="btn btn-light btn-sm fw-bold px-4 rounded-pill">Listeye Git <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Üyeler -->
+    <div class="col-md-4">
+        <div class="card shadow-custom border-0 rounded-4 bg-info text-white h-100">
+            <div class="card-body p-4 text-center">
+                <i class="fa-solid fa-users fa-3x mb-3"></i>
+                <h3 class="card-title fw-bold">@ViewBag.TotalMembers</h3>
+                <p class="card-text fs-5">Aktif Üye</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3">
+                <a asp-controller="Members" asp-action="Index" class="btn btn-light btn-sm fw-bold px-4 rounded-pill">Listeye Git <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Kategoriler -->
+    <div class="col-md-6">
+        <div class="card shadow-custom border-0 rounded-4 bg-warning text-dark h-100">
+            <div class="card-body p-4 text-center">
+                <i class="fa-solid fa-tags fa-3x mb-3"></i>
+                <h3 class="card-title fw-bold">@ViewBag.TotalCategories</h3>
+                <p class="card-text fs-5">Kitap Kategorisi</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3">
+                <a asp-controller="Categories" asp-action="Index" class="btn btn-dark btn-sm fw-bold px-4 rounded-pill">Listeye Git <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ödünç İşlemleri -->
+    <div class="col-md-6">
+        <div class="card shadow-custom border-0 rounded-4 bg-danger text-white h-100">
+            <div class="card-body p-4 text-center">
+                <i class="fa-solid fa-handshake fa-3x mb-3"></i>
+                <h3 class="card-title fw-bold">@ViewBag.TotalLoans</h3>
+                <p class="card-text fs-5">Ödünç İşlemi</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3">
+                <a asp-controller="Loans" asp-action="Index" class="btn btn-light btn-sm fw-bold px-4 rounded-pill">Listeye Git <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

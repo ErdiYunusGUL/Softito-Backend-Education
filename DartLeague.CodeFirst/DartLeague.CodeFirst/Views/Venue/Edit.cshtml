@@ -1,0 +1,23 @@
+@model DartLeague.CodeFirst.Models.Venue
+@{ ViewData["Title"] = "Edit Venue"; }
+
+<div class="glass-card w-50 mx-auto mt-4">
+    <h3 class="text-warning mb-3">Edit Venue</h3>
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="control-label">Venue Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="LogoUrl" class="control-label">Logo URL (Optional)</label>
+            <input asp-for="LogoUrl" class="form-control" placeholder="https://..." />
+            <div class="form-text text-light opacity-50">Paste a direct image link (png, jpg) for the venue logo.</div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-warning">Update Venue</button>
+            <a asp-action="Index" class="btn btn-outline-light ms-2">Cancel</a>
+        </div>
+    </form>
+</div>

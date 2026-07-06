@@ -1,0 +1,66 @@
+@model IEnumerable<GymApp.NTier.Core.Models.Member>
+
+@{
+    ViewData["Title"] = "Members";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+    <h2 class="fw-bold text-light"><span class="text-primary">👥</span> Gym Members</h2>
+    <a asp-action="Create" class="btn btn-success shadow-sm">
+        ➕ Add New Member
+    </a>
+</div>
+
+<div class="card bg-secondary mb-3 shadow border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover table-dark mb-0 rounded overflow-hidden">
+            <thead class="table-primary text-dark">
+                <tr>
+                    <th class="ps-4">Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Plan</th>
+                    <th>Join Date</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold">@item.FirstName @item.LastName</td>
+                            <td class="text-muted">@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>
+                                @if (item.Plan != null)
+                                {
+                                    <span class="badge bg-info text-dark">@item.Plan.Name</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">No Plan</span>
+                                }
+                            </td>
+                            <td>@item.JoinDate.ToString("MMM dd, yyyy")</td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-light" disabled>Edit</button>
+                                <button class="btn btn-sm btn-outline-danger" disabled>Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <h5>No members found.</h5>
+                            <p>Click "Add New Member" to get started.</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

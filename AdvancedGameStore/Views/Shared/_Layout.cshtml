@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AdvancedGameStore</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gamer: {
+                            dark: '#0f172a',
+                            panel: '#1e293b',
+                            primary: '#8b5cf6', // Violet
+                            accent: '#10b981', // Neon Green
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+        }
+    </style>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gamer-dark text-slate-100 min-h-screen flex flex-col">
+    <header class="bg-gamer-panel border-b border-gamer-primary/30 sticky top-0 z-50 shadow-[0_4px_30px_rgba(139,92,246,0.1)]">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a class="text-2xl font-black text-white flex items-center gap-3 glow-text" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="fa-solid fa-gamepad text-gamer-accent text-3xl"></i> 
+                <span class="tracking-wider">NEXUS<span class="text-gamer-primary">GAMES</span></span>
+            </a>
+            <div class="hidden md:flex gap-8">
+                <a class="text-white hover:text-gamer-accent transition-colors font-bold text-lg flex items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-store"></i> Vitrin
+                </a>
+                <a class="text-slate-400 hover:text-gamer-primary transition-colors font-medium text-lg flex items-center gap-2" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    <i class="fa-solid fa-shield-halved"></i> Admin
+                </a>
+                <a class="text-slate-400 hover:text-sky-400 transition-colors font-medium text-lg flex items-center gap-2" asp-area="Support" asp-controller="TicketManager" asp-action="Index">
+                    <i class="fa-solid fa-headset"></i> Destek
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="bg-gamer-primary/10 border border-gamer-primary hover:bg-gamer-primary text-white px-6 py-2 rounded-full font-bold transition-all transform hover:scale-105">
+                    Giriş Yap
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container mx-auto px-4 py-10 flex-grow">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-gamer-panel border-t border-gamer-primary/30 mt-auto py-10">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-slate-400">
+            <div class="flex items-center gap-2 text-xl font-bold text-white mb-4 md:mb-0">
+                <i class="fa-solid fa-gamepad text-gamer-accent"></i> NEXUSGAMES
+            </div>
+            <p>&copy; 2026 - AdvancedGameStore - Built with <i class="fa-solid fa-heart text-red-500 animate-pulse mx-1"></i> and <span class="text-gamer-accent glow-text font-bold ml-1">Tailwind</span></p>
+            <div class="flex gap-4 mt-4 md:mt-0 text-xl">
+                <a href="#" class="hover:text-gamer-primary transition-colors"><i class="fa-brands fa-discord"></i></a>
+                <a href="#" class="hover:text-gamer-primary transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="hover:text-gamer-primary transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

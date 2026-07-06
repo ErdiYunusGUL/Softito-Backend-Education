@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-dark: #0f1115;
+    --bg-surface: #1e1e24;
+    --bg-surface-hover: #2a2a35;
+    --primary-color: #8ab4f8; /* Google AI Studio Blue */
+    --primary-hover: #aecbfb;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --border-color: #3c4043;
+    --success: #81c995;
+    --danger: #f28b82;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* App Container Layout */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-surface);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menu-item {
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover, .menu-item.active {
+    background-color: var(--bg-surface-hover);
+    color: var(--primary-color);
+}
+
+/* Main Content */
+.main-wrapper {
+    flex: 1;
+    margin-left: 260px; /* Same as sidebar width */
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    height: 64px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+.content {
+    padding: 30px;
+    flex: 1;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: rgba(30, 30, 36, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    font-weight: 600;
+}
+
+/* Form Controls overridden for Dark Mode */
+.form-control, .form-select {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(138, 180, 248, 0.25);
+}
+
+/* Overriding Bootstrap stuff to fit dark mode */
+.text-muted { color: var(--text-secondary) !important; }
+.bg-light { background-color: var(--bg-surface-hover) !important; }
+.card { background-color: var(--bg-surface); border-color: var(--border-color); }
+.card-header, .card-footer { border-color: var(--border-color); background-color: rgba(0,0,0,0.2); }
+.nav-tabs .nav-link { color: var(--text-secondary); border: none; border-bottom: 2px solid transparent; }
+.nav-tabs .nav-link.active { color: var(--primary-color); background: none; border-color: var(--primary-color); }
+.nav-tabs .nav-link:hover { border-color: var(--border-color); }

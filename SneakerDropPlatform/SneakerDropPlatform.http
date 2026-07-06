@@ -1,0 +1,6 @@
+@SneakerDropPlatform_HostAddress = http://localhost:5193
+
+GET {{SneakerDropPlatform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Paneli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        corporate: {
+                            bg: '#0f172a', // Slate 900
+                            surface: '#1e293b', // Slate 800
+                            primary: '#3b82f6', // Blue 500
+                            border: '#334155', // Slate 700
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-corporate-bg text-slate-300 font-sans flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-corporate-surface border-r border-corporate-border flex flex-col hidden md:flex">
+        <div class="h-16 flex items-center px-6 border-b border-corporate-border">
+            <h1 class="text-xl font-bold text-white"><i class="fa-solid fa-gamepad text-corporate-primary mr-2"></i> Nexus Admin</h1>
+        </div>
+        <nav class="flex-grow p-4 flex flex-col gap-2">
+            <a href="/Admin/Dashboard" class="flex items-center px-4 py-3 hover:bg-corporate-primary/10 hover:text-corporate-primary rounded-lg font-medium transition-colors">
+                <i class="fa-solid fa-chart-pie w-6"></i> Dashboard
+            </a>
+            <a href="/Admin/ProductManager" class="flex items-center px-4 py-3 text-slate-400 hover:bg-slate-700/50 hover:text-white rounded-lg font-medium transition-colors">
+                <i class="fa-solid fa-box w-6"></i> Ürün Yönetimi
+            </a>
+            <a href="/" class="flex items-center px-4 py-3 text-slate-400 hover:bg-slate-700/50 hover:text-white rounded-lg font-medium transition-colors mt-auto">
+                <i class="fa-solid fa-arrow-left w-6"></i> Vitrine Dön
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex flex-col overflow-hidden">
+        <!-- Topbar -->
+        <header class="h-16 bg-corporate-surface border-b border-corporate-border flex items-center justify-between px-6 z-10 shadow-sm">
+            <div class="flex items-center bg-slate-900 rounded-lg px-4 py-2 border border-corporate-border w-96">
+                <i class="fa-solid fa-search text-slate-500 mr-3"></i>
+                <input type="text" placeholder="Panelde ara..." class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-slate-500" />
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 w-3 h-3 rounded-full"></span>
+                </button>
+                <div class="w-10 h-10 rounded-full bg-corporate-primary flex items-center justify-center text-white font-bold border-2 border-slate-700">
+                    AD
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="flex-grow p-6 overflow-y-auto">
+            @RenderBody()
+        </main>
+    </div>
+
+</body>
+</html>

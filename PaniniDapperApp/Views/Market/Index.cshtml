@@ -1,0 +1,49 @@
+@model IEnumerable<PaniniDapperApp.Models.TradeListing>
+@{
+    ViewData["Title"] = "Trade Market";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="bi bi-shop text-primary"></i> Trade Market</h2>
+    <a asp-action="MyListings" class="btn btn-outline-primary">My Listings & Offers</a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success glass-card border-success">@TempData["Success"]</div>
+}
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+    @foreach (var listing in Model)
+    {
+        <div class="col">
+            <div class="glass-card h-100">
+                <div class="glass-header d-flex justify-content-between align-items-center">
+                    <span class="text-primary fw-bold">@listing.Sticker?.Team?.CountryName</span>
+                    <small class="text-muted"><i class="bi bi-person"></i> @listing.Collector?.Username</small>
+                </div>
+                <div class="card-body text-center p-4">
+                    <h1 class="display-4 fw-bold text-white mb-2">#@listing.Sticker?.Number</h1>
+                    <h5 class="mb-0">@listing.Sticker?.PlayerName</h5>
+                    <p class="text-muted small mt-2 mb-0">Listed: @listing.CreatedDate.ToString("MMM dd, HH:mm")</p>
+                </div>
+                <div class="card-footer bg-transparent border-secondary p-3 text-center">
+                    <a asp-action="MakeOffer" 
+                       asp-route-listingId="@listing.Id" 
+                       asp-route-playerName="@listing.Sticker?.PlayerName" 
+                       asp-route-countryName="@listing.Sticker?.Team?.CountryName" 
+                       class="btn btn-primary w-100 fw-bold">
+                       Make an Offer
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info glass-card border-info mt-4">
+        No active listings found in the market right now. Check back later!
+    </div>
+}

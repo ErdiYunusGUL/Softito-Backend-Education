@@ -1,0 +1,98 @@
+@model AutoService_Mvc_Identity_Ajax.Models.ServiceRecord
+
+@{
+    ViewData["Title"] = "Yeni Servis Kaydı";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Araç Girişi Yap</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Marka Seçin</label>
+                            <select id="BrandId" class="form-select" asp-items="ViewBag.BrandId">
+                                <option value="">-- Marka Seçiniz --</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CarModelId" class="form-label">Model Seçin</label>
+                            <select asp-for="CarModelId" class="form-select" id="CarModelId" disabled>
+                                <option value="">-- Önce Marka Seçiniz --</option>
+                            </select>
+                            <span asp-validation-for="CarModelId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="LicensePlate" class="form-label"></label>
+                        <input asp-for="LicensePlate" class="form-control" style="text-transform: uppercase;" placeholder="34 ABC 123" />
+                        <span asp-validation-for="LicensePlate" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="FaultDescription" class="form-label"></label>
+                        <textarea asp-for="FaultDescription" class="form-control" rows="4" placeholder="Müşteri şikayeti ve arıza detayları..."></textarea>
+                        <span asp-validation-for="FaultDescription" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function () {
+            $("#BrandId").change(function () {
+                var brandId = $(this).val();
+                var modelSelect = $("#CarModelId");
+                
+                modelSelect.empty();
+                modelSelect.append('<option value="">-- Yükleniyor --</option>');
+                modelSelect.prop("disabled", true);
+
+                if (brandId) {
+                    $.ajax({
+                        url: '@Url.Action("GetModelsByBrand", "ServiceRecords")',
+                        type: 'GET',
+                        data: { brandId: brandId },
+                        success: function (data) {
+                            modelSelect.empty();
+                            if(data.length > 0) {
+                                modelSelect.append('<option value="">-- Model Seçiniz --</option>');
+                                $.each(data, function (index, item) {
+                                    modelSelect.append($('<option></option>').val(item.id).text(item.name));
+                                });
+                                modelSelect.prop("disabled", false);
+                            } else {
+                                modelSelect.append('<option value="">Modele rastlanmadı</option>');
+                            }
+                        },
+                        error: function() {
+                            modelSelect.empty();
+                            modelSelect.append('<option value="">Hata oluştu!</option>');
+                        }
+                    });
+                } else {
+                    modelSelect.empty();
+                    modelSelect.append('<option value="">-- Önce Marka Seçiniz --</option>');
+                }
+            });
+        });
+    </script>
+}

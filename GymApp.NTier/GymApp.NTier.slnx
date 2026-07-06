@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GymApp.NTier.Business/GymApp.NTier.Business.csproj" />
+  <Project Path="GymApp.NTier.Core/GymApp.NTier.Core.csproj" />
+  <Project Path="GymApp.NTier.DataAccess/GymApp.NTier.DataAccess.csproj" />
+  <Project Path="GymApp.NTier.Web/GymApp.NTier.Web.csproj" />
+</Solution>

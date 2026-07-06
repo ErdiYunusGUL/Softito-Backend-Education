@@ -1,0 +1,44 @@
+@model FlightSearch.Web.Models.CreateBookingDto
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">Passenger Details</h2>
+                
+                <form asp-action="Checkout" method="post">
+                    <input type="hidden" asp-for="FlightId" />
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="PassengerFirstName" class="form-label">First Name</label>
+                            <input asp-for="PassengerFirstName" class="form-control" required placeholder="e.g. John" />
+                            <span asp-validation-for="PassengerFirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="PassengerLastName" class="form-label">Last Name</label>
+                            <input asp-for="PassengerLastName" class="form-control" required placeholder="e.g. Doe" />
+                            <span asp-validation-for="PassengerLastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TicketTypeId" class="form-label">Class</label>
+                        <select asp-for="TicketTypeId" class="form-select">
+                            <option value="1">Economy</option>
+                            <option value="2">Business</option>
+                            <option value="3">First Class</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fs-5">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

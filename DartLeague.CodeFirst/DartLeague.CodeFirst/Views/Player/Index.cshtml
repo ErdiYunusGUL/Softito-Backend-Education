@@ -1,0 +1,45 @@
+@model IEnumerable<DartLeague.CodeFirst.Models.Player>
+@{ ViewData["Title"] = "Players"; }
+
+<div class="glass-card mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-success"><i class="bi bi-people-fill"></i> Players Directory</h2>
+        @if (User.IsInRole("Admin")) {
+            <a asp-action="Create" class="btn btn-success"><i class="bi bi-person-plus-fill"></i> Add Player</a>
+        }
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Team</th>
+                    @if (User.IsInRole("Admin")) {
+                        <th class="text-end">Actions</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td class="fw-bold fs-5">@item.Name</td>
+                        <td>
+                            @if (item.Team != null) {
+                                <span class="badge bg-primary fs-6">@item.Team.Name</span>
+                            } else {
+                                <span class="badge bg-secondary">Free Agent</span>
+                            }
+                        </td>
+                        @if (User.IsInRole("Admin")) {
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+@{
+    ViewData["Title"] = "Raporlar & İstatistikler";
+}
+
+<div class="row">
+    <!-- Markalara Göre Dağılım -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h6 class="mb-0"><i class="fa-solid fa-chart-pie text-primary"></i> Markalara Göre Araç Dağılımı</h6>
+            </div>
+            <div class="card-body">
+                <div style="position: relative; height:300px; width:100%">
+                    <canvas id="brandChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- En Çok Yapılan İşlemler -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h6 class="mb-0"><i class="fa-solid fa-chart-bar text-success"></i> En Çok Yapılan 5 İşlem</h6>
+            </div>
+            <div class="card-body">
+                <div style="position: relative; height:300px; width:100%">
+                    <canvas id="actionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            
+            // AJAX isteği ile verileri çek
+            $.ajax({
+                url: '@Url.Action("GetChartData", "Reports")',
+                type: 'GET',
+                success: function (res) {
+                    
+                    // Ortak ayarlar
+                    Chart.defaults.font.family = "'Inter', sans-serif";
+                    Chart.defaults.color = '#6c757d';
+
+                    // --- 1. Pie Chart (Marka Dağılımı) ---
+                    var brandCtx = document.getElementById('brandChart').getContext('2d');
+                    new Chart(brandCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: res.brandChart.labels,
+                            datasets: [{
+                                data: res.brandChart.data,
+                                backgroundColor: [
+                                    'rgba(13, 110, 253, 0.8)',
+                                    'rgba(25, 135, 84, 0.8)',
+                                    'rgba(220, 53, 69, 0.8)',
+                                    'rgba(255, 193, 7, 0.8)',
+                                    'rgba(13, 202, 240, 0.8)',
+                                    'rgba(102, 16, 242, 0.8)'
+                                ],
+                                borderWidth: 0,
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            },
+                            animation: {
+                                animateScale: true,
+                                animateRotate: true
+                            }
+                        }
+                    });
+
+                    // --- 2. Bar Chart (En Çok Yapılan İşlemler) ---
+                    var actionCtx = document.getElementById('actionChart').getContext('2d');
+                    new Chart(actionCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: res.actionChart.labels,
+                            datasets: [{
+                                label: 'İşlem Sayısı',
+                                data: res.actionChart.data,
+                                backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                                borderColor: 'rgba(25, 135, 84, 1)',
+                                borderWidth: 1,
+                                borderRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            animation: {
+                                y: {
+                                    duration: 2000,
+                                    easing: 'easeOutBounce'
+                                }
+                            }
+                        }
+                    });
+
+                },
+                error: function () {
+                    Swal.fire('Hata!', 'Grafik verileri yüklenemedi.', 'error');
+                }
+            });
+
+        });
+    </script>
+}

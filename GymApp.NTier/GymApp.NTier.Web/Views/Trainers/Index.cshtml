@@ -1,0 +1,33 @@
+@model IEnumerable<GymApp.NTier.Core.Models.Trainer>
+
+@{
+    ViewData["Title"] = "Expert Trainers";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+    <h2 class="fw-bold text-light"><span class="text-info">🏋️</span> Expert Trainers</h2>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var trainer in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card bg-secondary shadow border-info border-top border-3">
+                    <div class="card-body text-center py-4">
+                        <div class="display-1 mb-3">🧔</div>
+                        <h4 class="card-title text-light fw-bold">@trainer.FirstName @trainer.LastName</h4>
+                        <p class="card-text text-info fw-bold">Specialty: @trainer.Specialization</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12 text-center text-muted mt-5">
+            <h5>No trainers found in the database.</h5>
+        </div>
+    }
+</div>

@@ -1,0 +1,172 @@
+@page
+@model ReportsModel
+@{
+    ViewData["Title"] = "Raporlar";
+    var maxCategoryRev = Model.RevenueByCategory.Any() ? Model.RevenueByCategory.Max(x => x.TotalRevenue) : 1;
+    var maxMonthRev = Model.RevenueByMonth.Any() ? Model.RevenueByMonth.Max(x => x.TotalRevenue) : 1;
+}
+
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Performans & Raporlar</h1>
+    <p class="mt-2 text-sm text-gray-600">Satış verileri, popüler ürünler, aylık kazanç analizleri ve daha fazlası.</p>
+</div>
+
+<!-- Günlük Özet Kartları -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 shadow-lg shadow-indigo-200 text-white flex items-center justify-between">
+        <div>
+            <p class="text-indigo-100 text-sm font-medium uppercase tracking-wider">Bugünün Cirosu</p>
+            <p class="text-4xl font-extrabold mt-2">@Model.TodayRevenue.ToString("C2")</p>
+        </div>
+        <div class="p-4 bg-white/20 rounded-full backdrop-blur-sm">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 shadow-lg shadow-pink-200 text-white flex items-center justify-between">
+        <div>
+            <p class="text-pink-100 text-sm font-medium uppercase tracking-wider">Bugün Satılan Ürün</p>
+            <p class="text-4xl font-extrabold mt-2">@Model.TodayOrdersCount <span class="text-lg font-normal">Adet</span></p>
+        </div>
+        <div class="p-4 bg-white/20 rounded-full backdrop-blur-sm">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+    <!-- En Çok Satanlar -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            En Çok Satan Ürünler
+        </h2>
+        <div class="space-y-4">
+            @foreach (var item in Model.TopProducts.Select((prod, i) => new { Product = prod, Index = i + 1 }))
+            {
+                <div class="flex items-center justify-between p-3 bg-green-50 rounded-xl border border-green-100">
+                    <div class="flex items-center">
+                        <span class="w-7 h-7 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold mr-3 text-sm">@item.Index</span>
+                        <span class="font-semibold text-gray-800">@item.Product.Name</span>
+                    </div>
+                    <span class="bg-white px-2 py-1 rounded-md text-xs font-bold text-gray-600 shadow-sm border border-gray-100">
+                        @item.Product.TotalQuantity Adet
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- En Az Satanlar -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+            En Az Satan Ürünler
+        </h2>
+        <div class="space-y-4">
+            @foreach (var item in Model.WorstProducts.Select((prod, i) => new { Product = prod, Index = i + 1 }))
+            {
+                <div class="flex items-center justify-between p-3 bg-red-50 rounded-xl border border-red-100">
+                    <div class="flex items-center">
+                        <span class="w-7 h-7 rounded-full bg-red-200 text-red-700 flex items-center justify-center font-bold mr-3 text-sm">@item.Index</span>
+                        <span class="font-semibold text-gray-800">@item.Product.Name</span>
+                    </div>
+                    <span class="bg-white px-2 py-1 rounded-md text-xs font-bold text-gray-600 shadow-sm border border-gray-100">
+                        @item.Product.TotalQuantity Adet
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Kategori Ciro Dağılımı -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+            Kategori Bazlı Ciro
+        </h2>
+        <div class="space-y-6 mt-4">
+            @foreach (var cat in Model.RevenueByCategory)
+            {
+                var percentage = (cat.TotalRevenue / maxCategoryRev) * 100;
+                <div>
+                    <div class="flex justify-between text-sm font-semibold mb-2">
+                        <span class="text-gray-700">@cat.Name</span>
+                        <span class="text-gray-900">@cat.TotalRevenue.ToString("C2")</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full" style="width: @Math.Min(100, Math.Max(0, percentage))%"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Aylık Kazanç Grafiği (Progress Bar Stilinde) -->
+<div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 mb-8">
+    <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+        Aylık Kazanç (Son 6 Ay)
+    </h2>
+    <div class="space-y-4 mt-4">
+        @foreach (var month in Model.RevenueByMonth)
+        {
+            var percentage = (month.TotalRevenue / maxMonthRev) * 100;
+            <div class="flex items-center">
+                <div class="w-32 text-sm font-semibold text-gray-700 capitalize">@month.MonthName</div>
+                <div class="flex-grow mx-4">
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="bg-gradient-to-r from-teal-400 to-emerald-500 h-4 rounded-full" style="width: @Math.Min(100, Math.Max(0, percentage))%"></div>
+                    </div>
+                </div>
+                <div class="w-24 text-right text-sm font-bold text-gray-900">@month.TotalRevenue.ToString("C0")</div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Son İşlemler Tablosu -->
+<div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-lg leading-6 font-bold text-gray-900 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Son Ödenen Adisyonlar (Geçmiş)
+        </h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Müşteri</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Masa</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Ürün</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Adet</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tutar</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Ödenme Tarihi</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var order in Model.RecentPaidOrders)
+                {
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            @(string.IsNullOrEmpty(order.CustomerName) ? "-" : "👤 " + order.CustomerName)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">@order.Table?.Name</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@order.Product?.Name</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span class="px-2 py-1 bg-gray-100 rounded-md text-xs font-medium">@order.Quantity</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-800">
+                            @((order.Quantity * order.Product?.Price ?? 0).ToString("C2"))
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            @order.PaidDate?.ToString("dd MMM yyyy, HH:mm")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

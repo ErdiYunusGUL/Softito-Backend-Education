@@ -1,0 +1,73 @@
+@model IEnumerable<AutoService_Mvc_Identity_Ajax.Models.Part>
+
+@{
+    ViewData["Title"] = "Yedek Parça Stok Yönetimi";
+}
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <h5 class="mb-0 text-dark fw-bold"><i class="fa-solid fa-boxes-stacked text-primary me-2"></i> Stoktaki Parçalar</h5>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-primary btn-sm rounded-pill px-3">
+                <i class="fa-solid fa-plus"></i> Yeni Parça Ekle
+            </a>
+        }
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Parça Kodu</th>
+                        <th>Parça Adı</th>
+                        <th>Stok Miktarı</th>
+                        <th>Birim Fiyat</th>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <th class="text-end pe-4">İşlemler</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4"><span class="badge bg-secondary">@item.PartCode</span></td>
+                            <td class="fw-medium">@item.Name</td>
+                            <td>
+                                @if(item.StockQuantity <= 10)
+                                {
+                                    <span class="badge bg-danger rounded-pill">@item.StockQuantity Adet (Kritik)</span>
+                                }
+                                else if(item.StockQuantity <= 50)
+                                {
+                                    <span class="badge bg-warning text-dark rounded-pill">@item.StockQuantity Adet</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success rounded-pill">@item.StockQuantity Adet</span>
+                                }
+                            </td>
+                            <td>@item.UnitPrice.ToString("C2")</td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td class="text-end pe-4">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm rounded-circle" title="Düzenle">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">Henüz parça eklenmemiş.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

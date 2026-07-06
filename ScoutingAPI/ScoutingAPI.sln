@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11819.183 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoutingAPI", "ScoutingAPI.csproj", "{4D0074F6-8FB3-C19C-F63F-05944FC3C78D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D0074F6-8FB3-C19C-F63F-05944FC3C78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0074F6-8FB3-C19C-F63F-05944FC3C78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0074F6-8FB3-C19C-F63F-05944FC3C78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0074F6-8FB3-C19C-F63F-05944FC3C78D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {208B1DF2-0DDE-4F37-8369-FEA100C24D58}
+	EndGlobalSection
+EndGlobal

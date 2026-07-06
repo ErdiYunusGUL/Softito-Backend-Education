@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div class="row align-items-center min-vh-75 mt-5">
+    <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+        <h1 class="display-3 fw-bold text-white mb-4">
+            Welcome to the <br />
+            <span class="text-primary">Ultimate Dart League</span>
+        </h1>
+        <p class="lead text-light mb-5 fs-4 opacity-75">
+            Manage your teams, track live fixtures, and climb the leaderboards in the most advanced local dart league platform.
+        </p>
+        
+        <div class="d-flex justify-content-center justify-content-lg-start gap-3">
+            <a asp-controller="Standings" asp-action="Index" class="btn btn-primary btn-lg px-4 py-3 shadow-lg fs-5">
+                <i class="bi bi-trophy-fill me-2"></i> View Standings
+            </a>
+            <a asp-controller="Match" asp-action="Index" class="btn btn-outline-light btn-lg px-4 py-3 glass-card fs-5">
+                <i class="bi bi-calendar-check me-2"></i> Fixtures
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="glass-card text-center h-100 border-primary border-opacity-25 shadow-lg" style="transform: translateY(20px);">
+                    <div class="display-4 text-primary mb-2 fw-bold">@ViewBag.TotalTeams</div>
+                    <h5 class="text-white opacity-75">Active Teams</h5>
+                    <i class="bi bi-shield-shaded text-primary opacity-25" style="font-size: 3rem; position: absolute; bottom: -10px; right: 10px;"></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="glass-card text-center h-100 border-success border-opacity-25 shadow-lg">
+                    <div class="display-4 text-success mb-2 fw-bold">@ViewBag.TotalPlayers</div>
+                    <h5 class="text-white opacity-75">Registered Players</h5>
+                    <i class="bi bi-people-fill text-success opacity-25" style="font-size: 3rem; position: absolute; bottom: -10px; right: 10px;"></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="glass-card text-center h-100 border-warning border-opacity-25 shadow-lg" style="transform: translateY(20px);">
+                    <div class="display-4 text-warning mb-2 fw-bold">@ViewBag.PlayedMatches</div>
+                    <h5 class="text-white opacity-75">Matches Played</h5>
+                    <i class="bi bi-check2-circle text-warning opacity-25" style="font-size: 3rem; position: absolute; bottom: -10px; right: 10px;"></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="glass-card text-center h-100 border-info border-opacity-25 shadow-lg">
+                    <div class="display-4 text-info mb-2 fw-bold">@ViewBag.TotalMatches</div>
+                    <h5 class="text-white opacity-75">Total Fixtures</h5>
+                    <i class="bi bi-calendar-event text-info opacity-25" style="font-size: 3rem; position: absolute; bottom: -10px; right: 10px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom CSS just for the homepage to give it that extra pop */
+    .min-vh-75 {
+        min-height: 75vh;
+    }
+    
+    .glass-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2) !important;
+        border-color: rgba(59, 130, 246, 0.5) !important;
+    }
+    
+    h1 span {
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    }
+</style>

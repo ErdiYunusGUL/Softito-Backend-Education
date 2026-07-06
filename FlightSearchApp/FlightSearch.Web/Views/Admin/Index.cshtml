@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+            <a href="#" class="list-group-item list-group-item-action">Flights Management</a>
+            <a href="#" class="list-group-item list-group-item-action">Bookings Management</a>
+            <a href="#" class="list-group-item list-group-item-action">Users</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h2 class="mb-4">Admin Dashboard</h2>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Flights</h5>
+                        <h2 class="display-4">42</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Bookings</h5>
+                        <h2 class="display-4">156</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Users</h5>
+                        <h2 class="display-4">89</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-white fw-bold">
+                Recent Bookings
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>PNR</th>
+                            <th>Passenger</th>
+                            <th>Flight</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XYZ123</td>
+                            <td>John Doe</td>
+                            <td>IST - LHR</td>
+                            <td>@DateTime.Now.ToString("dd MMM yyyy")</td>
+                            <td><span class="badge bg-success">Confirmed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+@model IEnumerable<DartLeague.CodeFirst.Controllers.StandingViewModel>
+@{ ViewData["Title"] = "Standings"; }
+
+<div class="glass-card mb-4">
+    <h2 class="text-primary"><i class="bi bi-trophy"></i> League Standings</h2>
+    <hr class="border-secondary" />
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team</th>
+                    <th class="text-center">P</th>
+                    <th class="text-center">W</th>
+                    <th class="text-center">D</th>
+                    <th class="text-center">L</th>
+                    <th class="text-center">GF</th>
+                    <th class="text-center">GA</th>
+                    <th class="text-center">GD</th>
+                    <th class="text-center text-primary fs-5">Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int rank = 1; }
+                @foreach (var item in Model)
+                {
+                    <tr class="@(rank <= 3 ? "table-primary bg-opacity-10" : "")">
+                        <td class="fw-bold">@rank</td>
+                        <td class="fw-bold">@item.TeamName</td>
+                        <td class="text-center">@item.Played</td>
+                        <td class="text-center text-success">@item.Won</td>
+                        <td class="text-center text-warning">@item.Drawn</td>
+                        <td class="text-center text-danger">@item.Lost</td>
+                        <td class="text-center">@item.PointsFor</td>
+                        <td class="text-center">@item.PointsAgainst</td>
+                        <td class="text-center">
+                            @if (item.GoalDifference > 0) { <span class="text-success">+@item.GoalDifference</span> }
+                            else if (item.GoalDifference < 0) { <span class="text-danger">@item.GoalDifference</span> }
+                            else { <span>0</span> }
+                        </td>
+                        <td class="text-center text-primary fw-bold fs-5">@item.Points</td>
+                    </tr>
+                    rank++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

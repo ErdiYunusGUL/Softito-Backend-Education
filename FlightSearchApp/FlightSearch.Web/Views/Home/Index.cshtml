@@ -1,0 +1,213 @@
+@model IEnumerable<FlightSearch.Web.Models.FlightDto>
+
+@{
+    ViewData["Title"] = "Flight Search";
+}
+
+<div class="gf-hero">
+    <div style="background-image: url('https://www.gstatic.com/travel-frontend/animation/hero/flights_nc_4.svg'); background-position: center bottom; background-repeat: no-repeat; height: 200px; max-width: 100%; margin-bottom: 24px;"></div>
+    <h1 style="font-family: 'Product Sans', Roboto, sans-serif;">Explore the world</h1>
+    
+    <div class="container">
+        <form method="get" action="/">
+            <div class="gf-search-container" style="flex-direction: column; align-items: stretch; padding: 20px;">
+                
+                <!-- Filters Row -->
+                <div class="d-flex mb-3 gap-3">
+                    <select class="form-select border-0 w-auto bg-transparent shadow-none" name="tripType" style="cursor: pointer; font-weight: 500;">
+                        <option value="roundtrip">Round trip</option>
+                        <option value="oneway">One-way</option>
+                    </select>
+                    <select class="form-select border-0 w-auto bg-transparent shadow-none" name="passengers" style="cursor: pointer; font-weight: 500;">
+                        <option value="1">1 Adult</option>
+                        <option value="2">2 Adults</option>
+                        <option value="3">3 Adults</option>
+                    </select>
+                    <select class="form-select border-0 w-auto bg-transparent shadow-none" name="ticketClass" style="cursor: pointer; font-weight: 500;">
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+
+                <!-- Inputs Row -->
+                <div class="d-flex flex-wrap gap-2 position-relative">
+                    <!-- Departure -->
+                    <div class="gf-input-group m-0" style="flex: 1; min-width: 200px;">
+                        <i class="bi bi-geo-alt"></i>
+                        <input type="text" class="gf-input" id="departureCity" name="departureCity" value="@ViewBag.DepartureCity" placeholder="Where from?">
+                    </div>
+
+                    <!-- Arrival -->
+                    <div class="gf-input-group m-0" style="flex: 1; min-width: 200px;">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <input type="text" class="gf-input" id="arrivalCity" name="arrivalCity" value="@ViewBag.ArrivalCity" placeholder="Where to?">
+                    </div>
+
+                    <!-- Departure Date -->
+                    <div class="gf-input-group m-0" style="flex: 1; min-width: 150px;">
+                        <i class="bi bi-calendar3"></i>
+                        <input type="date" class="gf-input" id="departureDate" name="departureDate" value="@ViewBag.DepartureDate">
+                    </div>
+
+                    <!-- Return Date -->
+                    <div class="gf-input-group m-0" style="flex: 1; min-width: 150px;">
+                        <i class="bi bi-calendar3"></i>
+                        <input type="date" class="gf-input" id="returnDate" name="returnDate" value="@ViewBag.ReturnDate">
+                    </div>
+                </div>
+
+                <!-- Search Button -->
+                <div style="position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%);">
+                    <button type="submit" class="gf-search-btn shadow-sm px-4 py-2" style="font-size: 1.1rem;">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container" style="max-width: 900px; margin-top: 60px;">
+    
+    @if (ViewBag.IsSearchExecuted == true)
+    {
+        if (Model != null && Model.Any())
+        {
+            <h2 class="gf-results-title fs-5 mb-4 text-dark">Available flights</h2>
+            
+            <div class="gf-results-list">
+                @foreach (var flight in Model)
+                {
+                    <div class="gf-flight-card">
+                        <div class="gf-airline-logo">
+                            <i class="bi bi-airplane-fill"></i>
+                        </div>
+                        
+                        <div class="gf-flight-times">
+                            <div>
+                                <div class="gf-time fw-medium">@flight.DepartureTime.ToString("HH:mm")</div>
+                                <div class="gf-airport">@flight.DepartureAirport?.Code - @flight.DepartureAirport?.City?.Name</div>
+                            </div>
+                            
+                            <div class="gf-duration-line">
+                                <span class="gf-duration-text">@((flight.ArrivalAirport?.Code == "LHR") ? "4h 10m" : "2h 30m")</span>
+                                <div class="gf-line"></div>
+                                <span class="gf-duration-text text-success"><i class="bi bi-wifi"></i></span>
+                            </div>
+                            
+                            <div>
+                                <div class="gf-time fw-medium">@flight.DepartureTime.AddHours(1.5).ToString("HH:mm")</div>
+                                <div class="gf-airport">@flight.ArrivalAirport?.Code - @flight.ArrivalAirport?.City?.Name</div>
+                            </div>
+                        </div>
+                        
+                        <div class="gf-stops">
+                            <div class="fw-medium text-dark">Non-stop</div>
+                            <div class="gf-airport">@flight.Airline?.Name</div>
+                        </div>
+                        
+                        <div class="gf-price d-flex flex-column align-items-end">
+                            <span class="mb-2">@flight.Price.ToString("C0")</span>
+                            <a asp-controller="Booking" asp-action="Checkout" asp-route-flightId="@flight.Id" class="btn btn-sm btn-primary rounded-pill px-3">Select</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center mt-5">
+                <img src="https://www.gstatic.com/flights/app/not_found.svg" alt="Not found" style="max-width: 250px; opacity: 0.8; margin-bottom: 20px;">
+                <h4 class="text-dark">No flights found</h4>
+                <p class="text-secondary">We couldn't find any flights matching your criteria. Please try adjusting your dates or destinations.</p>
+            </div>
+        }
+    }
+    else
+    {
+        <!-- Initial Empty State -->
+        <div class="text-center mt-5">
+            <h3 class="text-secondary fw-normal">Where will your next journey take you?</h3>
+            <p class="text-muted">Enter your departure and arrival cities above to explore available flights.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setupAutocomplete('departureCity');
+            setupAutocomplete('arrivalCity');
+        });
+
+        function setupAutocomplete(inputId) {
+            const input = document.getElementById(inputId);
+            
+            // Create suggestions container
+            const container = document.createElement('div');
+            container.className = 'autocomplete-suggestions';
+            container.style.display = 'none';
+            container.style.position = 'absolute';
+            container.style.backgroundColor = 'white';
+            container.style.border = '1px solid #ccc';
+            container.style.zIndex = '1000';
+            container.style.width = '100%';
+            container.style.maxHeight = '200px';
+            container.style.overflowY = 'auto';
+            container.style.borderRadius = '0 0 8px 8px';
+            container.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            
+            input.parentNode.appendChild(container);
+
+            let timeoutId;
+
+            input.addEventListener('input', function () {
+                clearTimeout(timeoutId);
+                const query = this.value;
+
+                if (query.length < 2) {
+                    container.style.display = 'none';
+                    return;
+                }
+
+                timeoutId = setTimeout(() => {
+                    fetch(`/Home/SearchAirports?q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            container.innerHTML = '';
+                            if (data.length > 0) {
+                                data.forEach(item => {
+                                    const div = document.createElement('div');
+                                    div.className = 'autocomplete-item';
+                                    div.style.padding = '10px';
+                                    div.style.cursor = 'pointer';
+                                    div.style.borderBottom = '1px solid #eee';
+                                    
+                                    div.innerHTML = `<strong>${item.cityName}</strong> (${item.code}) <br> <small class="text-muted">${item.name}, ${item.countryName}</small>`;
+                                    
+                                    div.addEventListener('click', function () {
+                                        input.value = item.cityName; // Use city name for search
+                                        container.style.display = 'none';
+                                    });
+                                    
+                                    div.addEventListener('mouseenter', () => div.style.backgroundColor = '#f8f9fa');
+                                    div.addEventListener('mouseleave', () => div.style.backgroundColor = 'white');
+                                    
+                                    container.appendChild(div);
+                                });
+                                container.style.display = 'block';
+                            } else {
+                                container.style.display = 'none';
+                            }
+                        });
+                }, 300);
+            });
+
+            document.addEventListener('click', function (e) {
+                if (e.target !== input && e.target !== container) {
+                    container.style.display = 'none';
+                }
+            });
+        }
+    </script>
+}

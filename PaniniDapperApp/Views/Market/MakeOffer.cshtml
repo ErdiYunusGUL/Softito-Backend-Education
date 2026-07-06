@@ -1,0 +1,66 @@
+@model IEnumerable<PaniniDapperApp.Models.AlbumItem>
+@{
+    ViewData["Title"] = "Make an Offer";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="glass-card">
+            <div class="glass-header text-primary border-bottom border-secondary p-4 text-center">
+                <h4 class="mb-0">You are making an offer for</h4>
+                <h2 class="text-white mt-2">@ViewBag.TargetPlayerName</h2>
+                <span class="badge bg-secondary">@ViewBag.TargetCountryName</span>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted text-center mb-4">Select one of your duplicate stickers to offer in exchange.</p>
+
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-warning glass-card border-warning text-warning">
+                        You don't have any duplicate stickers to offer. You must have more than 1 quantity of a sticker to trade it.
+                    </div>
+                    <div class="text-center">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Go Back</a>
+                    </div>
+                }
+                else
+                {
+                    <form asp-action="MakeOffer" method="post">
+                        <input type="hidden" name="listingId" value="@ViewBag.ListingId" />
+                        
+                        <div class="row row-cols-1 row-cols-sm-2 g-3 mb-4">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col">
+                                    <label class="w-100">
+                                        <input type="radio" name="offeredStickerId" value="@item.StickerId" class="d-none peer" required />
+                                        <div class="glass-card border border-secondary p-3 cursor-pointer select-card text-center">
+                                            <h3 class="text-white mb-1">#@item.Sticker?.Number</h3>
+                                            <h6 class="text-muted mb-0">@item.Sticker?.PlayerName</h6>
+                                            <small class="text-primary">@item.Sticker?.Team?.CountryName</small>
+                                            <div class="mt-2"><span class="badge bg-success">You have @item.Quantity</span></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <a asp-action="Index" class="btn btn-outline-secondary w-50">Cancel</a>
+                            <button type="submit" class="btn btn-primary w-50 fw-bold">Send Offer</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cursor-pointer { cursor: pointer; }
+    input[type="radio"]:checked + .select-card {
+        border-color: var(--primary-color) !important;
+        background-color: rgba(138, 180, 248, 0.1);
+        box-shadow: 0 0 15px rgba(138, 180, 248, 0.3);
+    }
+</style>

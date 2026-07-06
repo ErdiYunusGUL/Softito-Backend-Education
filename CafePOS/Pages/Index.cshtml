@@ -1,0 +1,52 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Masa Yönetimi";
+}
+
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Masa Durumları</h1>
+    <p class="mt-2 text-sm text-gray-600">Mevcut masaların durumunu ve adisyon tutarlarını buradan takip edebilirsiniz.</p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    @foreach (var table in Model.Tables)
+    {
+        var totalAmount = table.Orders.Sum(o => o.Quantity * o.Product?.Price ?? 0);
+        var isOccupied = table.IsOccupied;
+        
+        var bgClass = isOccupied ? "bg-gradient-to-br from-orange-400 to-red-500 text-white shadow-red-200" : "bg-gradient-to-br from-emerald-400 to-green-500 text-white shadow-green-200";
+        var statusText = isOccupied ? "Dolu" : "Boş";
+
+        <a asp-page="/TableDetail" asp-route-id="@table.Id" class="block group relative rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 @bgClass overflow-hidden">
+            <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold tracking-tight">@table.Name</h2>
+                    <span class="px-3 py-1 rounded-full bg-white/20 text-sm font-medium backdrop-blur-sm">
+                        @statusText
+                    </span>
+                </div>
+                
+                @if (isOccupied)
+                {
+                    <div class="mt-4 pt-4 border-t border-white/20">
+                        @if (!string.IsNullOrEmpty(table.CustomerName))
+                        {
+                            <p class="text-sm text-white font-medium mb-2 truncate">👤 @table.CustomerName</p>
+                        }
+                        <p class="text-sm text-white/80 uppercase tracking-wider font-semibold">Toplam Tutar</p>
+                        <p class="text-3xl font-bold mt-1">@totalAmount.ToString("C2")</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="mt-4 pt-4 border-t border-white/20">
+                        <p class="text-sm text-white/80 uppercase tracking-wider font-semibold">Durum</p>
+                        <p class="text-lg font-medium mt-1">Müşteri Bekleniyor</p>
+                    </div>
+                }
+            </div>
+        </a>
+    }
+</div>

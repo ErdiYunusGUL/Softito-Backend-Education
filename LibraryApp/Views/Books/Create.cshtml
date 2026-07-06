@@ -1,0 +1,67 @@
+@model LibraryApp.Models.Book
+
+@{
+    ViewData["Title"] = "Yeni Kitap Ekle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-custom border-0 rounded-4 mt-4">
+            <div class="card-header bg-primary text-white rounded-top-4 py-3">
+                <h4 class="mb-0"><i class="fa-solid fa-circle-plus me-2"></i>Yeni Kitap Ekle</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label asp-for="Title" class="form-label fw-bold">Kitap Adı</label>
+                            <input asp-for="Title" class="form-control form-control-lg" placeholder="Kitap adını giriniz" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="Isbn" class="form-label fw-bold">ISBN</label>
+                            <input asp-for="Isbn" class="form-control" placeholder="ISBN No" />
+                            <span asp-validation-for="Isbn" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="PublishYear" class="form-label fw-bold">Yayın Yılı</label>
+                            <input asp-for="PublishYear" class="form-control" placeholder="Örn: 2023" />
+                            <span asp-validation-for="PublishYear" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="AuthorId" class="form-label fw-bold">Yazar</label>
+                            <select asp-for="AuthorId" class="form-select" asp-items="ViewBag.AuthorId">
+                                <option value="">-- Yazar Seçiniz --</option>
+                            </select>
+                            <span asp-validation-for="AuthorId" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="CategoryId" class="form-label fw-bold">Kategori</label>
+                            <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId">
+                                <option value="">-- Kategori Seçiniz --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                        <a asp-action="Index" class="btn btn-light shadow-sm">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Listeye Dön
+                        </a>
+                        <button type="submit" class="btn btn-primary shadow-sm px-4">
+                            <i class="fa-solid fa-check me-1"></i> Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

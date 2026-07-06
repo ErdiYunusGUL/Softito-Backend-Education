@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 100px 0;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .transition-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .transition-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6) !important;
+    }
+</style>
+
+<div class="text-center hero-section mt-4 mb-5">
+    <h1 class="display-3 fw-bold text-warning">Welcome to Titan Fitness ⚡</h1>
+    <p class="lead text-light mt-3">Unleash your potential with world-class trainers and top-tier equipment.</p>
+    <a asp-controller="Members" asp-action="Index" class="btn btn-warning btn-lg mt-3 fw-bold text-dark">Join the Titans Today</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 mb-4">
+        <div class="card bg-dark shadow h-100 border-warning border-top border-3 transition-hover">
+            <div class="card-body text-center py-5">
+                <div class="display-4 text-warning mb-3">👥</div>
+                <h3 class="card-title text-light">Member Roster</h3>
+                <p class="card-text text-muted">Track all active Titans, monitor their subscription plans, and manage details.</p>
+                <a asp-controller="Members" asp-action="Index" class="btn btn-outline-warning mt-3">Manage Members</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-dark shadow h-100 border-info border-top border-3 transition-hover">
+            <div class="card-body text-center py-5">
+                <div class="display-4 text-info mb-3">🏋️</div>
+                <h3 class="card-title text-light">Expert Trainers</h3>
+                <p class="card-text text-muted">Meet the elite staff ready to forge champions. Assign workouts and specialties.</p>
+                <a asp-controller="Trainers" asp-action="Index" class="btn btn-outline-info mt-3">View Trainers</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-dark shadow h-100 border-danger border-top border-3 transition-hover">
+            <div class="card-body text-center py-5">
+                <div class="display-4 text-danger mb-3">📋</div>
+                <h3 class="card-title text-light">Subscription Plans</h3>
+                <p class="card-text text-muted">Explore our Basic, Premium, and VIP plans tailored for every fitness goal.</p>
+                <a asp-controller="Plans" asp-action="Index" class="btn btn-outline-danger mt-3">Manage Plans</a>
+            </div>
+        </div>
+    </div>
+</div>

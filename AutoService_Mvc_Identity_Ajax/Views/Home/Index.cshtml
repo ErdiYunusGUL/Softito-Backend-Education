@@ -1,0 +1,241 @@
+@{
+    ViewData["Title"] = "Gösterge Paneli";
+}
+
+<!-- Hoş Geldin Kartı (Ortak) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color: white; border-radius: 15px;">
+            <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-1 fw-bold">Hoş Geldiniz, @User.Identity?.Name!</h3>
+                    <p class="mb-0 opacity-75">AutoService Yönetim Sisteminde iyi çalışmalar dileriz.</p>
+                </div>
+                <div class="d-none d-md-block opacity-50">
+                    <i class="fa-solid fa-car-side fa-4x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    <!-- ADMIN DASHBOARD -->
+    <div class="row g-4 mb-4">
+        <!-- Toplam Ciro -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 15px; border-left: 5px solid #198754 !important;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase mb-1">Toplam Ciro</div>
+                            <div class="h4 mb-0 fw-bold text-dark">@(((decimal?)ViewBag.TotalRevenue ?? 0).ToString("N2")) ₺</div>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-3 rounded-circle text-success">
+                            <i class="fa-solid fa-sack-dollar fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aylık Kayıt -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 15px; border-left: 5px solid #0d6efd !important;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase mb-1">Bu Ayki Servisler</div>
+                            <div class="h4 mb-0 fw-bold text-dark">@ViewBag.MonthlyRecords Araç</div>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary">
+                            <i class="fa-solid fa-calendar-check fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toplam Kayıt -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 15px; border-left: 5px solid #6f42c1 !important;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase mb-1">Tüm Kayıtlar</div>
+                            <div class="h4 mb-0 fw-bold text-dark">@ViewBag.TotalRecords Araç</div>
+                        </div>
+                        <div class="bg-purple bg-opacity-10 p-3 rounded-circle" style="color: #6f42c1;">
+                            <i class="fa-solid fa-car fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kritik Stok -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 15px; border-left: 5px solid #dc3545 !important;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase mb-1">Kritik Stok (Parça)</div>
+                            <div class="h4 mb-0 fw-bold text-dark">@ViewBag.LowStockParts Çeşit</div>
+                        </div>
+                        <div class="bg-danger bg-opacity-10 p-3 rounded-circle text-danger">
+                            <i class="fa-solid fa-triangle-exclamation fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Rapor Grafikleri (Reports/Index kısmındaki mantık anasayfaya taşınıyor) -->
+    <div class="row g-4">
+        <!-- Markalara Göre Dağılım -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 15px;">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h6 class="mb-0 fw-bold"><i class="fa-solid fa-chart-pie text-primary me-2"></i> Markalara Göre Servis Dağılımı</h6>
+                </div>
+                <div class="card-body">
+                    <div style="position: relative; height:300px; width:100%">
+                        <canvas id="brandChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- En Çok Yapılan İşlemler -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 15px;">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h6 class="mb-0 fw-bold"><i class="fa-solid fa-chart-bar text-success me-2"></i> En Çok Yapılan 5 İşlem</h6>
+                </div>
+                <div class="card-body">
+                    <div style="position: relative; height:300px; width:100%">
+                        <canvas id="actionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '@Url.Action("GetChartData", "Reports")',
+                    type: 'GET',
+                    success: function (res) {
+                        Chart.defaults.font.family = "'Inter', sans-serif";
+                        
+                        var brandCtx = document.getElementById('brandChart').getContext('2d');
+                        new Chart(brandCtx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: res.brandChart.labels,
+                                datasets: [{
+                                    data: res.brandChart.data,
+                                    backgroundColor: ['#0d6efd', '#198754', '#dc3545', '#ffc107', '#0dcaf0', '#6f42c1', '#fd7e14'],
+                                    borderWidth: 0, hoverOffset: 5
+                                }]
+                            },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } }, cutout: '70%' }
+                        });
+
+                        var actionCtx = document.getElementById('actionChart').getContext('2d');
+                        new Chart(actionCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: res.actionChart.labels,
+                                datasets: [{
+                                    label: 'İşlem Sayısı',
+                                    data: res.actionChart.data,
+                                    backgroundColor: 'rgba(25, 135, 84, 0.8)',
+                                    borderRadius: 6
+                                }]
+                            },
+                            options: {
+                                responsive: true, maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: { y: { beginAtZero: true, grid: { borderDash: [2, 2] } }, x: { grid: { display: false } } }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    }
+}
+else
+{
+    <!-- PERSONEL (USTA) DASHBOARD -->
+    var todayRecords = ViewBag.TodayRecords as List<AutoService_Mvc_Identity_Ajax.Models.ServiceRecord>;
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0" style="border-radius: 15px;">
+                <div class="card-header bg-white border-0 pt-4 pb-3">
+                    <h5 class="mb-0 fw-bold"><i class="fa-solid fa-list-check text-primary me-2"></i> Bugün Gelen Araçlar</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Saat</th>
+                                    <th>Plaka</th>
+                                    <th>Marka / Model</th>
+                                    <th class="text-end pe-4">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (todayRecords != null && todayRecords.Any())
+                                {
+                                    foreach (var record in todayRecords)
+                                    {
+                                        <tr>
+                                            <td class="ps-4 text-muted">@record.EntryDate.ToString("HH:mm")</td>
+                                            <td><span class="badge bg-dark">@record.LicensePlate</span></td>
+                                            <td class="fw-medium">@record.CarModel?.Brand?.Name @record.CarModel?.Name</td>
+                                            <td class="text-end pe-4">
+                                                <a href="@Url.Action("Details", "ServiceRecords", new { id = record.Id })" class="btn btn-sm btn-outline-primary rounded-pill">İşlem Ekle</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center py-5 text-muted">
+                                            <i class="fa-solid fa-mug-hot fa-2x mb-3 text-secondary opacity-50"></i>
+                                            <p class="mb-0">Bugün henüz yeni araç girişi yapılmadı.</p>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 15px; background-color: #f8f9fa;">
+                <div class="card-body text-center d-flex flex-column justify-content-center py-5">
+                    <div class="mb-4">
+                        <i class="fa-solid fa-car-on fa-4x text-primary opacity-75"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Yeni Araç Kaydı</h5>
+                    <p class="text-muted mb-4 small">Servise yeni gelen araçlar için kayıt açın ve hemen işlemlere başlayın.</p>
+                    <a href="@Url.Action("Create", "ServiceRecords")" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                        <i class="fa-solid fa-plus me-2"></i> Kayıt Oluştur
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

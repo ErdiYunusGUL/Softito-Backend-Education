@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Destek Merkezi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        support: {
+                            bg: '#f8fafc', // Slate 50
+                            surface: '#ffffff', // White
+                            primary: '#0ea5e9', // Sky 500
+                            secondary: '#e0f2fe', // Sky 100
+                            text: '#334155', // Slate 700
+                            muted: '#64748b', // Slate 500
+                            border: '#e2e8f0', // Slate 200
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-support-bg text-support-text font-sans min-h-screen flex flex-col">
+    
+    <!-- Top Navbar -->
+    <header class="bg-support-surface border-b border-support-border shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="/Support/TicketManager" class="text-2xl font-black text-support-primary flex items-center gap-2">
+                    <i class="fa-solid fa-headset text-support-primary"></i> <span class="tracking-tight">Nexus<span class="text-support-text">Destek</span></span>
+                </a>
+                <nav class="hidden md:flex gap-6 mt-1">
+                    <a href="/Support/TicketManager" class="text-support-text font-bold border-b-2 border-support-primary pb-5 hover:text-support-primary transition-colors">Açık Talepler</a>
+                    <a href="#" class="text-support-muted font-medium border-b-2 border-transparent pb-5 hover:text-support-primary transition-colors">Çözülmüş Talepler</a>
+                    <a href="#" class="text-support-muted font-medium border-b-2 border-transparent pb-5 hover:text-support-primary transition-colors">Müşteriler</a>
+                </nav>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="/" class="text-sm font-medium text-support-muted hover:text-support-text mr-4 transition-colors"><i class="fa-solid fa-arrow-left mr-1"></i> Mağazaya Dön</a>
+                <button class="relative text-support-muted hover:text-support-primary transition-colors">
+                    <i class="fa-solid fa-inbox text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-amber-500 w-2.5 h-2.5 rounded-full border-2 border-white"></span>
+                </button>
+                <div class="flex items-center gap-3 ml-4 pl-4 border-l border-support-border">
+                    <div class="w-9 h-9 rounded-full bg-support-secondary text-support-primary flex items-center justify-center font-bold shadow-inner">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <div class="hidden sm:flex flex-col">
+                        <span class="text-sm font-bold text-support-text leading-tight">Agent #42</span>
+                        <span class="text-xs text-support-muted leading-tight">Çevrimiçi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-grow container mx-auto px-6 py-8">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-support-surface border-t border-support-border py-6 mt-auto">
+        <div class="container mx-auto px-6 flex justify-between items-center text-sm text-support-muted">
+            <div>NexusGames Support System &copy; 2026. All rights reserved.</div>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-support-primary transition-colors">Kullanım Koşulları</a>
+                <a href="#" class="hover:text-support-primary transition-colors">Gizlilik Politikası</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

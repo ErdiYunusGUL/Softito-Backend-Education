@@ -1,0 +1,79 @@
+@model DartLeague.CodeFirst.ViewModels.EditGamesViewModel
+@{ ViewData["Title"] = "Edit Match Games"; }
+
+<div class="glass-card w-100 mx-auto mt-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h3 class="text-warning mb-0"><i class="bi bi-controller"></i> Edit Match Details</h3>
+        <h4 class="text-white mb-0">@Model.HomeTeamName <span class="text-muted mx-2">vs</span> @Model.AwayTeamName</h4>
+    </div>
+
+    <form asp-action="EditGames">
+        <input type="hidden" asp-for="MatchId" />
+
+        <div class="alert alert-info py-2 small">
+            <i class="bi bi-info-circle"></i> Singles (1-6) win = 1 point, Doubles (7-9) win = 2 points. Match score is calculated automatically.
+        </div>
+
+        @for (int i = 0; i < Model.Games.Count; i++)
+        {
+            <input type="hidden" asp-for="Games[i].Id" />
+            <input type="hidden" asp-for="Games[i].GameOrder" />
+            <input type="hidden" asp-for="Games[i].IsDoubles" />
+
+            var isDoubles = Model.Games[i].IsDoubles;
+
+            <div class="card bg-dark bg-opacity-50 mb-3 border-secondary">
+                <div class="card-header py-2 bg-black bg-opacity-25 d-flex justify-content-between align-items-center">
+                    <strong class="text-light">Match @(i+1) @(isDoubles ? "(Doubles)" : "(Singles)")</strong>
+                </div>
+                <div class="card-body py-3">
+                    <div class="row align-items-center text-center">
+                        <!-- Home Players -->
+                        <div class="col-md-4">
+                            <h6 class="text-muted mb-2">@Model.HomeTeamName</h6>
+                            <select asp-for="Games[i].HomePlayer1Id" class="form-select form-select-sm mb-2 text-white bg-dark border-secondary">
+                                <option value="">-- Select Player 1 --</option>
+                                @foreach(var p in Model.HomePlayers) { <option value="@p.Id">@p.Name</option> }
+                            </select>
+                            @if(isDoubles) {
+                                <select asp-for="Games[i].HomePlayer2Id" class="form-select form-select-sm text-white bg-dark border-secondary">
+                                    <option value="">-- Select Player 2 --</option>
+                                    @foreach(var p in Model.HomePlayers) { <option value="@p.Id">@p.Name</option> }
+                                </select>
+                            }
+                        </div>
+
+                        <!-- Score -->
+                        <div class="col-md-4 px-1">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <input asp-for="Games[i].HomeScore" class="form-control text-center bg-dark text-white border-secondary fs-5" type="number" min="0" max="9" style="width: 70px;" />
+                                <span class="text-muted fw-bold">-</span>
+                                <input asp-for="Games[i].AwayScore" class="form-control text-center bg-dark text-white border-secondary fs-5" type="number" min="0" max="9" style="width: 70px;" />
+                            </div>
+                        </div>
+
+                        <!-- Away Players -->
+                        <div class="col-md-4">
+                            <h6 class="text-muted mb-2">@Model.AwayTeamName</h6>
+                            <select asp-for="Games[i].AwayPlayer1Id" class="form-select form-select-sm mb-2 text-white bg-dark border-secondary">
+                                <option value="">-- Select Player 1 --</option>
+                                @foreach(var p in Model.AwayPlayers) { <option value="@p.Id">@p.Name</option> }
+                            </select>
+                            @if(isDoubles) {
+                                <select asp-for="Games[i].AwayPlayer2Id" class="form-select form-select-sm text-white bg-dark border-secondary">
+                                    <option value="">-- Select Player 2 --</option>
+                                    @foreach(var p in Model.AwayPlayers) { <option value="@p.Id">@p.Name</option> }
+                                </select>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-success btn-lg px-5 rounded-pill"><i class="bi bi-check2-circle"></i> Save All Games</button>
+            <a asp-action="Index" class="btn btn-outline-light btn-lg px-4 rounded-pill ms-2">Cancel</a>
+        </div>
+    </form>
+</div>

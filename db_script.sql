@@ -1,0 +1,39 @@
+CREATE TABLE Authors (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Categories (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Books (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Title NVARCHAR(200) NOT NULL,
+    ISBN NVARCHAR(20),
+    PublishYear INT,
+    AuthorId INT NOT NULL,
+    CategoryId INT NOT NULL,
+    FOREIGN KEY (AuthorId) REFERENCES Authors(Id),
+    FOREIGN KEY (CategoryId) REFERENCES Categories(Id)
+);
+
+CREATE TABLE Members (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(150),
+    Phone NVARCHAR(20)
+);
+
+CREATE TABLE Loans (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    BookId INT NOT NULL,
+    MemberId INT NOT NULL,
+    LoanDate DATETIME NOT NULL DEFAULT GETDATE(),
+    ReturnDate DATETIME,
+    FOREIGN KEY (BookId) REFERENCES Books(Id),
+    FOREIGN KEY (MemberId) REFERENCES Members(Id)
+);

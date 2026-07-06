@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - World Cup Market</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @if (Context.Session.GetInt32("ActiveCollectorId").HasValue)
+    {
+        <div class="app-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <i class="bi bi-hexagon-fill"></i> Sticker Market
+                </div>
+                <div class="sidebar-menu">
+                    <a asp-controller="Home" asp-action="Index" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                        <i class="bi bi-grid-1x2"></i> Dashboard
+                    </a>
+                    <a asp-controller="Stickers" asp-action="Index" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Stickers" ? "active" : "")">
+                        <i class="bi bi-collection"></i> My Album
+                    </a>
+                    <a asp-controller="Market" asp-action="Index" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Market" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+                        <i class="bi bi-shop"></i> Trade Market
+                    </a>
+                    <a asp-controller="Market" asp-action="MyListings" class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "MyListings" ? "active" : "")">
+                        <i class="bi bi-tags"></i> My Listings
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="main-wrapper">
+                <header class="topbar">
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="text-muted"><i class="bi bi-person-circle"></i> @Context.Session.GetString("ActiveCollectorName")</span>
+                        <a asp-controller="Account" asp-action="Logout" class="btn btn-sm btn-outline-danger">Logout</a>
+                    </div>
+                </header>
+                <div class="content">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Login/Register Layout -->
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+            @RenderBody()
+        </div>
+    }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,118 @@
+@model DartLeague.CodeFirst.ViewModels.MatchDetailsViewModel
+@{ ViewData["Title"] = "Match Details"; }
+
+<style>
+    .game-row {
+        transition: background-color 0.2s;
+    }
+    .game-row:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+    .score-box {
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 2px;
+        background: linear-gradient(145deg, #1a1d20, #2b3035);
+        border: 1px solid #495057;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .player-name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    .winner-text {
+        color: #198754 !important;
+        font-weight: 700;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="glass-card p-5 mb-5">
+        
+        <!-- Header -->
+        <div class="text-center mb-5 border-bottom border-secondary pb-4">
+            <h6 class="text-muted text-uppercase tracking-widest mb-3">
+                <i class="bi bi-geo-alt-fill text-danger"></i> @(Model.Match.Venue?.Name ?? "TBD") &nbsp; | &nbsp; 
+                <i class="bi bi-calendar-event"></i> @Model.Match.MatchDate.ToString("dd MMM yyyy, HH:mm")
+            </h6>
+            
+            <div class="d-flex justify-content-center align-items-center gap-4">
+                <h2 class="mb-0 text-end w-25 @(Model.Match.HomeTeamScore > Model.Match.AwayTeamScore ? "text-success fw-bold" : "")">@Model.Match.HomeTeam?.Name</h2>
+                
+                <div class="score-box rounded-pill px-4 py-2 text-white d-inline-block shadow-lg">
+                    @if (Model.Match.IsPlayed)
+                    {
+                        <span class="@(Model.Match.HomeTeamScore > Model.Match.AwayTeamScore ? "text-success" : "")">@Model.Match.HomeTeamScore</span>
+                        <span class="text-muted mx-2">-</span>
+                        <span class="@(Model.Match.AwayTeamScore > Model.Match.HomeTeamScore ? "text-success" : "")">@Model.Match.AwayTeamScore</span>
+                    }
+                    else
+                    {
+                        <span class="opacity-50 fs-5">VS</span>
+                    }
+                </div>
+                
+                <h2 class="mb-0 text-start w-25 @(Model.Match.AwayTeamScore > Model.Match.HomeTeamScore ? "text-success fw-bold" : "")">@Model.Match.AwayTeam?.Name</h2>
+            </div>
+            
+            @if(Model.Match.IsPlayed) {
+                <div class="mt-3 small text-muted">FINAL SCORE</div>
+            }
+        </div>
+
+        <!-- Games List -->
+        @if (Model.Games.Any())
+        {
+            <div class="games-container">
+                @foreach (var game in Model.Games.OrderBy(g => g.GameOrder))
+                {
+                    <div class="row align-items-center py-3 game-row border-bottom border-dark border-opacity-50">
+                        
+                        <!-- Home Players -->
+                        <div class="col-5 text-end pe-4">
+                            @if(game.IsDoubles) {
+                                <div class="player-name @(game.HomeScore > game.AwayScore ? "winner-text" : "text-light")">@(game.HomePlayer1?.Name ?? "-")</div>
+                                <div class="player-name @(game.HomeScore > game.AwayScore ? "winner-text" : "text-light")">@(game.HomePlayer2?.Name ?? "-")</div>
+                            } else {
+                                <div class="player-name @(game.HomeScore > game.AwayScore ? "winner-text" : "text-light")">@(game.HomePlayer1?.Name ?? "-")</div>
+                            }
+                        </div>
+                        
+                        <!-- Game Score -->
+                        <div class="col-2 text-center px-0">
+                            <div class="bg-dark rounded px-2 py-1 border border-secondary shadow-sm d-inline-block">
+                                <span class="fs-5 fw-bold @(game.HomeScore > game.AwayScore ? "text-success" : "text-white")">@game.HomeScore</span>
+                                <span class="text-muted mx-1">-</span>
+                                <span class="fs-5 fw-bold @(game.AwayScore > game.HomeScore ? "text-success" : "text-white")">@game.AwayScore</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Away Players -->
+                        <div class="col-5 text-start ps-4">
+                            @if(game.IsDoubles) {
+                                <div class="player-name @(game.AwayScore > game.HomeScore ? "winner-text" : "text-light")">@(game.AwayPlayer1?.Name ?? "-")</div>
+                                <div class="player-name @(game.AwayScore > game.HomeScore ? "winner-text" : "text-light")">@(game.AwayPlayer2?.Name ?? "-")</div>
+                            } else {
+                                <div class="player-name @(game.AwayScore > game.HomeScore ? "winner-text" : "text-light")">@(game.AwayPlayer1?.Name ?? "-")</div>
+                            }
+                        </div>
+                        
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 opacity-50">
+                <i class="bi bi-controller fs-1 mb-3 d-block"></i>
+                <h5>No game details have been entered yet.</h5>
+            </div>
+        }
+        
+        <div class="text-center mt-5">
+            <a asp-action="Index" class="btn btn-outline-light rounded-pill px-4"><i class="bi bi-arrow-left"></i> Back to Fixtures</a>
+        </div>
+        
+    </div>
+</div>

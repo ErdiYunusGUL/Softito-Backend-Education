@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11819.183 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoService_Mvc_Identity_Ajax", "AutoService_Mvc_Identity_Ajax.csproj", "{B67EA489-3290-B90F-8DA5-A31977DB5C22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B67EA489-3290-B90F-8DA5-A31977DB5C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67EA489-3290-B90F-8DA5-A31977DB5C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67EA489-3290-B90F-8DA5-A31977DB5C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67EA489-3290-B90F-8DA5-A31977DB5C22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {323E8AD5-32C0-4FBC-B7BA-C269C9C6FBA3}
+	EndGlobalSection
+EndGlobal

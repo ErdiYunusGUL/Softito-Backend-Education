@@ -1,0 +1,21 @@
+@model DartLeague.CodeFirst.Models.Player
+@{ ViewData["Title"] = "Add Player"; }
+
+<div class="glass-card w-50 mx-auto mt-4">
+    <h3 class="text-success mb-3">Add New Player</h3>
+    <form asp-action="Create">
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="control-label">Player Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="TeamId" class="control-label">Assign to Team</label>
+            <select asp-for="TeamId" class="form-select" asp-items="ViewBag.TeamId"></select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success">Save Player</button>
+            <a asp-action="Index" class="btn btn-outline-light ms-2">Cancel</a>
+        </div>
+    </form>
+</div>

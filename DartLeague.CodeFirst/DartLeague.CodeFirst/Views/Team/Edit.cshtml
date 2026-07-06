@@ -1,0 +1,43 @@
+@model DartLeague.CodeFirst.Models.Team
+@{ ViewData["Title"] = "Edit Team"; }
+
+<div class="glass-card w-50 mx-auto mt-4">
+    <h3 class="text-warning mb-3">Edit Team</h3>
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="control-label">Team Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="CategoryId" class="control-label">Category</label>
+            <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId" required></select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="HomeVenueId" class="control-label">Home Venue</label>
+            <select asp-for="HomeVenueId" class="form-select" asp-items="ViewBag.HomeVenueId" required>
+                <option value="">-- Select Home Venue --</option>
+            </select>
+            <span asp-validation-for="HomeVenueId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="LogoUrl" class="control-label">Logo URL (Optional)</label>
+            <input asp-for="LogoUrl" class="form-control" placeholder="https://..." />
+            <div class="form-text text-light opacity-50">Paste a direct image link (png, jpg) for the team logo.</div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-warning">Update Team</button>
+            <a asp-action="Index" class="btn btn-outline-light ms-2">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

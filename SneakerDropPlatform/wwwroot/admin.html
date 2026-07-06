@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYPE DROP - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-dark text-white font-outfit antialiased selection:bg-neon selection:text-black">
+    
+    <!-- Login View -->
+    <div id="login-view" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute w-[400px] h-[400px] bg-neon/10 rounded-full blur-[100px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
+        
+        <div class="relative z-10 w-full max-w-md p-8 bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-2xl">
+            <div class="text-center mb-8">
+                <div class="text-3xl font-black tracking-tighter uppercase italic mb-2">
+                    <span class="text-neon">HYPE</span><span class="text-white">ADMIN</span>
+                </div>
+                <p class="text-gray-400 text-sm">Secure Back-Office Access</p>
+            </div>
+            
+            <form id="admin-login-form" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Username</label>
+                    <input type="text" id="username" required class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon focus:ring-1 focus:ring-neon transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Password</label>
+                    <input type="password" id="password" required class="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon focus:ring-1 focus:ring-neon transition-all">
+                </div>
+                <button type="submit" class="w-full bg-white text-black font-bold uppercase tracking-wider py-3 rounded-xl hover:bg-neon transition-colors duration-300">
+                    Login to System
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="hidden min-h-screen flex flex-col">
+        <!-- Navbar -->
+        <nav class="glass-nav border-b border-white/10 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="text-2xl font-black tracking-tighter uppercase italic">
+                    <span class="text-neon">HYPE</span><span class="text-white">ADMIN</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="/" class="text-sm text-gray-400 hover:text-white transition-colors"><i class="fa-solid fa-store mr-2"></i>View Store</a>
+                    <button id="logout-btn" class="bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-10">
+            <div class="mb-10">
+                <h1 class="text-4xl font-black uppercase tracking-tight mb-2">Dashboard</h1>
+                <p class="text-gray-400">Overview of your store's performance.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-[#111] border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-neon/50 transition-colors">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-neon/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    <div class="text-neon mb-2 text-2xl"><i class="fa-solid fa-dollar-sign"></i></div>
+                    <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-1">Total Revenue</div>
+                    <div id="stat-revenue" class="text-4xl font-black">$0.00</div>
+                </div>
+                
+                <div class="bg-[#111] border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-blue-500/50 transition-colors">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    <div class="text-blue-500 mb-2 text-2xl"><i class="fa-solid fa-box"></i></div>
+                    <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-1">Total Orders</div>
+                    <div id="stat-orders" class="text-4xl font-black">0</div>
+                </div>
+
+                <div class="bg-[#111] border border-white/10 rounded-2xl p-6 relative overflow-hidden group hover:border-purple-500/50 transition-colors">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    <div class="text-purple-500 mb-2 text-2xl"><i class="fa-solid fa-shoe-prints"></i></div>
+                    <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-1">Items Sold</div>
+                    <div id="stat-items" class="text-4xl font-black">0</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Top Sellers -->
+                <div class="lg:col-span-2 bg-[#0a0a0a] border border-white/10 rounded-3xl p-6">
+                    <h2 class="text-xl font-bold uppercase tracking-wide mb-6 flex items-center"><i class="fa-solid fa-fire text-neon mr-3"></i> Top Selling Sneakers</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-gray-500 text-xs uppercase tracking-wider border-b border-white/5">
+                                    <th class="pb-3 font-bold">Model</th>
+                                    <th class="pb-3 font-bold text-right">Sold Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top-sellers-body">
+                                <tr>
+                                    <td colspan="2" class="py-6 text-center text-gray-500">Loading data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alerts -->
+                <div class="bg-[#0a0a0a] border border-white/10 rounded-3xl p-6">
+                    <h2 class="text-xl font-bold uppercase tracking-wide mb-6 flex items-center"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-3"></i> Low Stock Alerts</h2>
+                    <ul id="low-stock-list" class="space-y-4">
+                        <li class="text-center py-4 text-gray-500">Loading alerts...</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#050505',
+                        neon: '#ccff00'
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>
