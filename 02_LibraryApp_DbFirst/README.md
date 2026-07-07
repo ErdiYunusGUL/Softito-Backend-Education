@@ -4,7 +4,7 @@ Var olan bir veritabanı üzerinden Scaffold-DbContext kullanılarak oluşturulm
 
 ## 📷 Ekran Görüntüleri
 
-*(Projenizi çalıştırdığınızda aldığınız ekran görüntülerini `docs/images` klasörüne atıp isimlerini `screenshot-1.png` gibi yaparak burada görünmesini sağlayabilirsiniz)*
+
 
 ![Ana Ekran](docs/images/screenshot-1.png)
 <br/>
