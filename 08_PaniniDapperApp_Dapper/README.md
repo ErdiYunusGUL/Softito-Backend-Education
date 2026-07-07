@@ -4,8 +4,6 @@ Ağır bir ORM yerine performans odaklı Micro-ORM Dapper kullanılarak gelişti
 
 ## 📷 Ekran Görüntüleri
 
-*(Projenizi çalıştırdığınızda aldığınız ekran görüntülerini `docs/images` klasörüne atıp isimlerini `screenshot-1.png` gibi yaparak burada görünmesini sağlayabilirsiniz)*
-
 ![Ana Ekran](docs/images/screenshot-1.png)
 <br/>
 ![Detay Ekranı](docs/images/screenshot-2.png)

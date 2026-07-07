@@ -4,8 +4,6 @@ Spor salonu üyelerinin, antrenörlerin ve üyelik planlarının takip edildiği
 
 ## 📷 Ekran Görüntüleri
 
-*(Projenizi çalıştırdığınızda aldığınız ekran görüntülerini `docs/images` klasörüne atıp isimlerini `screenshot-1.png` gibi yaparak burada görünmesini sağlayabilirsiniz)*
-
 ![Ana Ekran](docs/images/screenshot-1.png)
 <br/>
 ![Detay Ekranı](docs/images/screenshot-2.png)
