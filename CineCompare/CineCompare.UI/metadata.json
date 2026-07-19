@@ -1,0 +1,8 @@
+{
+  "name": "CineScope",
+  "description": "Modern cinema tracking, showtime listing, and smart sorting platform.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

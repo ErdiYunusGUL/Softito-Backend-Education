@@ -1,0 +1,62 @@
+﻿@model IEnumerable<IGrouping<string, CineCompare.Core.DTOs.ShowtimePricingDto>>
+
+@{
+    ViewData["Title"] = ViewBag.MovieTitle + " - Bilet Kıyaslama";
+}
+
+<div class="container mt-5">
+    <!-- ÜST KISIM: Film Bilgisi -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h1 class="display-4 fw-bold">@ViewBag.MovieTitle</h1>
+            <p class="text-muted lead">İstanbul bölgesindeki en uygun biletleri kıyaslıyorsunuz.</p>
+        </div>
+    </div>
+
+    <!-- ALT KISIM: Senin Kurgun (Sinemaya Göre Gruplanmış Liste) -->
+    <h3 class="mb-4">Seanslar ve Fiyatlar (Bugün)</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">Seçtiğiniz kriterlerde vizyonda seans bulunamadı.</div>
+    }
+
+    @foreach (var theaterGroup in Model)
+    {
+        <!-- Her Sinema Şubesi için bir kart oluşturuyoruz -->
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">🎬 @theaterGroup.Key</h5>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <!-- O sinemanın içindeki seansları dönüyoruz -->
+                    @foreach (var showtime in theaterGroup)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <strong class="text-primary">[@showtime.HardwareType]</strong> -
+                                <span class="badge bg-secondary fs-6">@showtime.StartTime.ToString("HH:mm")</span>
+                            </div>
+                            <div class="text-end">
+                                <!-- Öğrenci Fiyatı (Eğer veritabanında varsa) -->
+                                @if (showtime.StudentPrice.HasValue)
+                                {
+                                    <small class="text-muted">Öğrenci:</small>
+                                    <strong class="text-success fs-5">@showtime.StudentPrice ₺</strong>
+                                    <span class="mx-2 text-muted">|</span>
+                                }
+                                <!-- Tam Fiyat (Eğer veritabanında varsa) -->
+                                @if (showtime.AdultPrice.HasValue)
+                                {
+                                    <small class="text-muted">Tam:</small>
+                                    <strong class="text-danger fs-5">@showtime.AdultPrice ₺</strong>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CineCompare.Core/CineCompare.Core.csproj" />
+  <Project Path="CineCompare.Data/CineCompare.Data.csproj" />
+  <Project Path="CineCompare.Service/CineCompare.Service.csproj" />
+  <Project Path="CineCompare.Web/CineCompare.Web.csproj" />
+</Solution>
